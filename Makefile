@@ -27,12 +27,15 @@ CFLAGS = -std=c99 -Wall \
 
 SRCS = startup_ARMCM4.c system_stm32f4xx.c \
        cmsis_os2.c os_systick.c freertos_evr.c \
+	   croutine.c event_groups.c list.c \
+	   queue.c stream_buffer.c tasks.c \
+	   timers.c port.c heap_4.c \
        I2C_STM32F4xx.c SPI_STM32F4xx.c \
        USART_STM32F4xx.c USBD_FS_STM32F4xx.c
 
 OBJS = $(SRCS:.c=.o)
 
-VPATH = cmsis_5/Device/ARM/ARMCM4/Source:stm32f4xx-dfp-2.16.0/CMSIS/Driver:stm32f4xx-dfp-2.16.0/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates:cmsis-freertos-10.4.3/CMSIS/RTOS2/FreeRTOS/Source
+VPATH = cmsis_5/Device/ARM/ARMCM4/Source:stm32f4xx-dfp-2.16.0/CMSIS/Driver:stm32f4xx-dfp-2.16.0/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates:cmsis-freertos-10.4.3/CMSIS/RTOS2/FreeRTOS/Source:cmsis-freertos-10.4.3/Source:cmsis-freertos-10.4.3/Source/portable/MemMang:cmsis-freertos-10.4.3/Source/portable/GCC/ARM_CM4F
 
 cmsis_stm32f411xe.a : $(OBJS)
 	$(AR) r $@ $?
