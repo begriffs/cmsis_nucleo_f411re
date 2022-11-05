@@ -38,4 +38,4 @@ cmsis_stm32f411xe.a : $(OBJS)
 	$(AR) r $@ $?
 
 clean :
-	rm *.[ao]
+	rm -f *.[ao]
