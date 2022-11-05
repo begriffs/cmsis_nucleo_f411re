@@ -21,7 +21,6 @@ CFLAGS = -std=c99 -Wall \
 		 -Istm32f4xx-dfp-2.16.0/Drivers/STM32F4xx_HAL_Driver/Inc \
 		 -Istm32f4xx-dfp-2.16.0/MDK/Templates/Inc \
 		 -Icmsis-freertos-10.4.3/CMSIS/RTOS2/FreeRTOS/Include \
-		 -Icmsis-freertos-10.4.3/CMSIS/RTOS2/FreeRTOS/Config/ARMCM \
 		 -Icmsis-freertos-10.4.3/Source/portable/GCC/ARM_CM4F \
 		 -Icmsis-freertos-10.4.3/Source/include \
 		 -I.

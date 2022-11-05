@@ -1,3 +1,6 @@
+#ifndef CMSIS_RTE_COMPONENTS_H
+#define CMSIS_RTE_COMPONENTS_H
+
 #include CMSIS_device_header
 
 /* enable everything, let linker prune later */
@@ -49,3 +52,5 @@
 #define HAL_DFSDM_MODULE_ENABLED
 #define HAL_LPTIM_MODULE_ENABLED
 #define HAL_MMC_MODULE_ENABLED
+
+#endif
