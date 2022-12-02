@@ -1,0 +1,6 @@
+[submodule "cmsis"]
+	path = cmsis
+	url = https://github.com/ARM-software/CMSIS_5.git
+[submodule "cmsis-dfp-stm32f4"]
+	path = cmsis-dfp-stm32f4
+	url = https://github.com/STMicroelectronics/cmsis_device_f4.git
