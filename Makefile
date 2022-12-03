@@ -10,7 +10,7 @@ STMF411 = -mcpu=cortex-m4 -mthumb \
           -DARMCM4_FP -DSTM32F411xE \
 		  -DHSE_VALUE=8000000L
 
-CFLAGS = -std=c99 -Wall -Wextra -g -Os $(STMF411) \
+CFLAGS = -std=c99 -Wall -Wextra -g -O0 $(STMF411) \
          -Icmsis/CMSIS/Core/Include \
 		 -Icmsis/Device/ARM/ARMCM4/Include \
          -Icmsis-dfp-stm32f4/Include
