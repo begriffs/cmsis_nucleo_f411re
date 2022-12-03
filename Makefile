@@ -7,7 +7,8 @@ OBJCOPY = $(ABI)-objcopy
 
 STMF411 = -mcpu=cortex-m4 -mthumb \
           -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
-          -DARMCM4_FP -DSTM32F411xE
+          -DARMCM4_FP -DSTM32F411xE \
+		  -DHSE_VALUE=8000000L
 
 CFLAGS = -std=c99 -Wall -Wextra -g -Os $(STMF411) \
          -Icmsis/CMSIS/Core/Include \
@@ -17,7 +18,7 @@ CFLAGS = -std=c99 -Wall -Wextra -g -Os $(STMF411) \
 SRCS = startup_ARMCM4.c system_stm32f4xx.c
 OBJS = $(SRCS:.c=.o)
 
-blink.axf blink.bin : blink.c libcmsis_stm32f411xe.a STM32F411CEU6.ld
+blink.axf blink.bin : blink.c libcmsis_stm32f411xe.a stm32f411ceu6.ld
 	$(CC) $(CFLAGS) blink.c $(LDFLAGS) -o blink.axf $(LDLIBS)
 	$(OBJCOPY) -O binary blink.axf blink.bin
 
