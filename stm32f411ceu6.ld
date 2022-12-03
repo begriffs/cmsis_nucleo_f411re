@@ -1,14 +1,21 @@
-/* Copied from cmsis/Device/ARM/ARMCM4/Source/GCC/gcc_arm.ld */
-
-/* Custom bits: */
-
 MEMORY
 {
 	FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 512K
 	RAM   (rwx) : ORIGIN = 0x20000000, LENGTH = 128K
 }
 
+/* While our entrypoint is Reset_Handler, the __cmsis_start function looks
+ * specifically for the _start function to hand off to the application
+ */
+
 PROVIDE ( _start = main );
+
+/*************************************************
+ *        everything below is copied from
+ * cmsis/Device/ARM/ARMCM4/Source/GCC/gcc_arm.ld
+ *
+ *       with the MEMORY section pulled out
+ *************************************************/
 
 /* Linker script to place sections and symbol values. Should be used together
  * with other linker script that defines memory regions FLASH and RAM.
