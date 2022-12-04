@@ -8,11 +8,12 @@ OBJCOPY = $(ABI)-objcopy
 STMF411 = -mcpu=cortex-m4 -mthumb \
           -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
           -DARMCM4_FP -DSTM32F411xE \
-		  -DHSE_VALUE=8000000L
 
-CFLAGS = -std=c99 -Wall -Wextra -g -O0 $(STMF411) \
+NUCLEO = -DHSE_VALUE=8000000L
+
+CFLAGS = -std=c99 -Wall -Wextra -g -O0 $(STMF411) $(NUCLEO) \
          -Icmsis/CMSIS/Core/Include \
-		 -Icmsis/Device/ARM/ARMCM4/Include \
+         -Icmsis/Device/ARM/ARMCM4/Include \
          -Icmsis-dfp-stm32f4/Include
 
 SRCS = startup_ARMCM4.c system_stm32f4xx.c

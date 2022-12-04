@@ -4,47 +4,46 @@ void max_speed(void)
 {
 	// enable HSE from attached ST-Link board
 	RCC->CR |= RCC_CR_HSEBYP | RCC_CR_HSEON;
-	while (!(RCC->CR & RCC_CR_HSERDY))
-		;
+	while (!(RCC->CR & RCC_CR_HSERDY));
 
+	// enable power-interface clock
 	RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+	// voltage scaling, 0x11 = scale 1, for <= 100mhz system clock
 	PWR->CR |= (3<<PWR_CR_VOS_Pos);
-	// The reference manaul for the STM32F411 series says that for a CPU
-	// running at 100MHz on a 2.7-3.6 supply voltage, the flash latency should
-	// be 3 wait cycles
-	FLASH->ACR |=
-		FLASH_ACR_LATENCY_3WS | FLASH_ACR_PRFTEN |
-		FLASH_ACR_ICEN | FLASH_ACR_DCEN;
+
+	// The reference manaul for the STM32F411 series, section 3.4.1, says that
+	// for a CPU running at 100MHz on a 2.7 - 3.6 supply voltage, the flash
+	// latency should be 3 wait cycles
+	FLASH->ACR |= FLASH_ACR_LATENCY_3WS;
+	// enable memory prefetching to mitigate the increased wait cycles
+	FLASH->ACR |= FLASH_ACR_PRFTEN | FLASH_ACR_ICEN | FLASH_ACR_DCEN;
 
 	RCC->CFGR |=
-		RCC_CFGR_PPRE1_DIV2 | RCC_CFGR_PPRE2_DIV1 | RCC_CFGR_HPRE_DIV1;
+		RCC_CFGR_PPRE1_DIV2 | // 100mhz/2 <= 50mhz, as required
+		RCC_CFGR_PPRE2_DIV1 | // 100mhz/1 <= 100mhz, as required
+		RCC_CFGR_HPRE_DIV1;   // don't know of any constraints
 
 	// disable PLL
 	RCC->CR &= ~RCC_CR_PLLON;
-	while ((RCC->CR & RCC_CR_PLLRDY))
-		;
+	while ((RCC->CR & RCC_CR_PLLRDY));
 
 	// set HSE as the PLL input
 	RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC_HSE;
 
 	// set PLL parameters M, N, and P
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLM_Msk;
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLN_Msk;
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLP_Msk;
-	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLQ_Msk;
+	RCC->PLLCFGR &= (~RCC_PLLCFGR_PLLM_Msk) & (~RCC_PLLCFGR_PLLN_Msk) &
+	                (~RCC_PLLCFGR_PLLP_Msk) & (~RCC_PLLCFGR_PLLQ_Msk);
 	RCC->PLLCFGR |= (HSE_VALUE/100000) << RCC_PLLCFGR_PLLM_Pos;
 	RCC->PLLCFGR |= 400                << RCC_PLLCFGR_PLLN_Pos;
 	RCC->PLLCFGR |= 4                  << RCC_PLLCFGR_PLLP_Pos;
 
 	// enable PLL
 	RCC->CR |=RCC_CR_PLLON;
-	while(!(RCC->CR & RCC_CR_PLLRDY))
-		;
+	while(!(RCC->CR & RCC_CR_PLLRDY));
 
 	// use PLL as clock source
 	RCC->CFGR |= RCC_CFGR_SW_PLL;
-	while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL)
-		;
+	while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL);
 
 	// record the results in SystemCoreClock
 	SystemCoreClockUpdate();
