@@ -4,3 +4,6 @@
 [submodule "cmsis-dfp-stm32f4"]
 	path = cmsis-dfp-stm32f4
 	url = https://github.com/STMicroelectronics/cmsis_device_f4.git
+[submodule "cmsis-freertos"]
+	path = cmsis-freertos
+	url = https://github.com/ARM-software/CMSIS-FreeRTOS.git
