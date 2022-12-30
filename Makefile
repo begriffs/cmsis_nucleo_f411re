@@ -19,9 +19,12 @@ CFLAGS = -std=c99 -Wall -Wextra -g -O0 $(STMF411) $(NUCLEO) \
 SRCS = startup_ARMCM4.c system_stm32f4xx.c
 OBJS = $(SRCS:.c=.o)
 
-blink.axf blink.bin : blink.c libcmsis_stm32f411xe.a stm32f411ceu6.ld
-	$(CC) $(CFLAGS) blink.c $(LDFLAGS) -o blink.axf $(LDLIBS)
+blink.axf blink.bin : blink.c util.o libcmsis_stm32f411xe.a stm32f411ceu6.ld
+	$(CC) $(CFLAGS) blink.c util.o $(LDFLAGS) -o blink.axf $(LDLIBS)
 	$(OBJCOPY) -O binary blink.axf blink.bin
+
+util.o : util.c util.h
+	$(CC) $(CFLAGS) -c util.c
 
 VPATH = cmsis/Device/ARM/ARMCM4/Source/GCC:cmsis-dfp-stm32f4/Source/Templates
 
