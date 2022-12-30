@@ -1,4 +1,4 @@
-#include <stm32f4xx.h> 
+#include CMSIS_device_header
 
 #include "util.h"
 
