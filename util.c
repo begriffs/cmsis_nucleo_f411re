@@ -98,3 +98,24 @@ void spin_delay_ms(TIM_TypeDef *t, uint32_t N)
 	t->CR1 |= TIM_CR1_CEN;
 	while(!(t->SR & TIM_SR_UIF));
 }
+
+#include <stddef.h>
+
+void *
+memcpy (void *dest, const void *src, size_t len)
+{
+	char *d = dest;
+	const char *s = src;
+	while (len--)
+		*d++ = *s++;
+	return dest;
+}
+
+void *
+memset (void *dest, int val, size_t len)
+{
+	unsigned char *ptr = dest;
+	while (len-- > 0)
+		*ptr++ = val;
+	return dest;
+}
