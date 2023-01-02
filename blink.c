@@ -1,25 +1,38 @@
-#include <stm32f4xx.h> 
+#include CMSIS_device_header
+
+#include <FreeRTOS.h>
+#include <task.h>
 
 #include "util.h"
+
+
+void app(void *args)
+{
+	(void)args;
+	while (1)
+	{
+		GPIOA->BSRR = (1 << 5);
+		vTaskDelay(pdMS_TO_TICKS(500));
+		GPIOA->BSRR = (1 << (5 + 16));
+		vTaskDelay(pdMS_TO_TICKS(500));
+	}
+}
+
+StaticTask_t appTaskBuf;
+StackType_t  appTaskStack[configMINIMAL_STACK_SIZE];
 
 int main(void)
 {
 	sysclock_pll_hse_100mhz();
 
-	// turn on clock for TIM2
-	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-	// configure TIM2
-	set_microsecond_downcount(TIM2);
-
 	// turn on clock for GPIOA
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 	GPIOA->MODER |= (0b01 << (5 << 1));
 
-	while (1)
-	{
-		GPIOA->BSRR = (1 << 5);
-		spin_delay_ms(TIM2, 1000);
-		GPIOA->BSRR = (1 << (5 + 16));
-		spin_delay_ms(TIM2, 1000);
-	}
+	xTaskCreateStatic(
+		app, "app", configMINIMAL_STACK_SIZE, NULL,
+		configMAX_PRIORITIES-1, appTaskStack, &appTaskBuf);
+
+	vTaskStartScheduler(); // FreeRTOS, take the wheel!
+	configASSERT(0); // shouldn't get here
 }
