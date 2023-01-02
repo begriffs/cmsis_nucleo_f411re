@@ -8,6 +8,7 @@ OBJCOPY = $(ABI)-objcopy
 STMF411 = -mcpu=cortex-m4 -mthumb \
           -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
           -DCMSIS_device_header='"stm32f4xx.h"' \
+          -D__STARTUP_CLEAR_BSS \
           -DARMCM4_FP -DSTM32F411xE \
 
 NUCLEO = -DHSE_VALUE=8000000L
