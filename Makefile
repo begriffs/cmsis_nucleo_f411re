@@ -5,6 +5,9 @@ CC = $(ABI)-gcc
 AR = $(ABI)-ar
 OBJCOPY = $(ABI)-objcopy
 
+# note that -D__STARTUP_CLEAR_BSS is needed because we don't have
+# newlib's crt0 to initialize the BSS
+
 STMF411 = -mcpu=cortex-m4 -mthumb \
           -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
           -DCMSIS_device_header='"stm32f4xx.h"' \
@@ -42,6 +45,10 @@ VPATH = cmsis/Device/ARM/ARMCM4/Source/GCC:cmsis-dfp-stm32f4/Source/Templates:cm
 
 libcmsis_stm32f411xe.a : $(OBJS)
 	$(AR) r $@ $?
+
+# I'd like to use newlib, but OpenBSD's arm-none-eabi-newlib doesn't ship
+# with thumb/v7e-m+fp/hard. Skipping it for now, and using my own
+# implementations of memset etc.
 
 LDFLAGS = -nostdlib -nostartfiles -L. \
           -Wl,--print-memory-usage \
