@@ -27,7 +27,7 @@ int main(void)
 
 	// turn on clock for GPIOA
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-	GPIOA->MODER |= (0b01 << (5 << 1));
+	GPIOA->MODER |= (1 << (5 << 1));
 
 	xTaskCreateStatic(
 		app, "app", configMINIMAL_STACK_SIZE, NULL,
