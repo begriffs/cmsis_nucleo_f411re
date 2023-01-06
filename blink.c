@@ -5,6 +5,7 @@
 
 #include "util.h"
 
+#define LEN(ar) (sizeof (ar) / sizeof *(ar))
 
 void app(void *args)
 {
@@ -30,9 +31,11 @@ int main(void)
 	GPIOA->MODER |= (1 << (5 << 1));
 
 	xTaskCreateStatic(
-		app, "app", configMINIMAL_STACK_SIZE, NULL,
+		app, "app", LEN(appTaskStack), NULL,
 		configMAX_PRIORITIES-1, appTaskStack, &appTaskBuf);
 
-	vTaskStartScheduler(); // FreeRTOS, take the wheel!
-	configASSERT(0); // shouldn't get here
+	// FreeRTOS, take the wheel!
+	vTaskStartScheduler();
+	// shouldn't get here
+	configASSERT(0);
 }
