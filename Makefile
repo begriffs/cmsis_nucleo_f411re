@@ -19,7 +19,7 @@ CFLAGS_RTOS  = -Ifreertos/include \
                -Ifreertos/portable/GCC/ARM_CM4F
 
 CFLAGS       = -std=c99 -Wall -Wextra -g -O0 \
-	           $(CFLAGS_ARCH) $(CFLAGS_CMSIS) $(CFLAGS_RTOS) \
+               $(CFLAGS_ARCH) $(CFLAGS_CMSIS) $(CFLAGS_RTOS) \
                -I.
 
 LDFLAGS = -nostdlib -L. \
