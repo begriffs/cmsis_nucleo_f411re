@@ -1,6 +1,8 @@
 #ifndef CMSIS_UTIL_H
 #define CMSIS_UTIL_H
 
+#define LEN(ar) (sizeof (ar) / sizeof *(ar))
+
 #include <stdint.h>
 
 void sysclock_pll_hse_100mhz(void);
