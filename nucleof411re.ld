@@ -4,8 +4,9 @@ MEMORY
 	RAM   (rwx) : ORIGIN = 0x20000000, LENGTH = 128K
 }
 
-/* While our entrypoint is Reset_Handler, the __cmsis_start function looks
- * specifically for the _start function to hand off to the application
+/* If we're not using newlib, then just go right into main after CMSIS
+ * initializes some basic stuff. In this case, also want to define
+ * __STARTUP_CLEAR_BSS so CMSIS will initialize globals.
  */
 
 PROVIDE ( _start = main );
